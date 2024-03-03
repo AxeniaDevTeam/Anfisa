@@ -1,5 +1,5 @@
 # Anfisa
-
+[@anfisa-bot](https://t.me/Anfisa-bot)
 Реинкарнация Аксиньи с минимальным функционалом и редисом в качестве БД.
 Также в проекте используется библиотека [TelegramBotPHP](https://github.com/Eleirbag89/TelegramBotPHP) с дописанным функционалом.
 
