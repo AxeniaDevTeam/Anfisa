@@ -15,32 +15,36 @@ if ($telegram->messageFromGroup()) {
     if (isset($message['reply_to_message'])) {
         $to = $message['reply_to_message']['from'];
         $from = $message['from'];
-        if (!($to['is_bot'] || $from['is_bot'])) {
+
+        if (!($to['is_bot'] || $from['is_bot'] || $to['id'] == 777000)) {
             if ($to['id'] != $from['id']) {
                 switch (substr($text, 0, 1)) {
                     case '+':
-                        $response = $service -> handleKarma($chat_id, $to, $from, True);
+                        $response = $service->handleKarma($chat_id, $to, $from, True);
                         break;
                     case '-':
-                        $response = $service -> handleKarma($chat_id, $to, $from, False);
+                        $response = $service->handleKarma($chat_id, $to, $from, False);
                         break;
                 };
+            }
 
-                if (isset($response)) {
-                    $telegram->sendMessage([
-                        'chat_id' => ADMIN_CHAT_ID,
-                        'text' => $message['id']
-                    ]);
-                }
+            $command = explode(' ', trim($text))[0];
+            switch ($command) {
+                case '/set':
+                    if ($from['id'] == ADMIN_CHAT_ID) {
+                        $value = (int)explode(' ', trim($text))[1];
+                        $response = $service->setKarma($chat_id, $to, $value);
+                    }
+                    break;
+            }
 
-                if (isset($response)) {
-                    $telegram->sendMessage([
-                        'chat_id' => $chat_id,
-                        'text' => $response,
-                        'parse_mode' => 'HTML',
-                        'reply_to_message_id' => $messageId
-                    ]);
-                }
+            if (isset($response)) {
+                $telegram->sendMessage([
+                    'chat_id' => $chat_id,
+                    'text' => $response,
+                    'parse_mode' => 'HTML',
+                    'reply_to_message_id' => $messageId
+                ]);
             }
         }
     }
