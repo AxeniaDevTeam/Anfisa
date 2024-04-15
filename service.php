@@ -29,9 +29,6 @@ class Service
 
     public function handleKarma($chat_id, $to, $from, $isRise)
     {
-        $this->updateUser($to);
-        $this->updateUser($from);
-
         $toName = Utils::makeName($to);
         $fromName = Utils::makeName($from);
         $fromKarma = $this->db->getKarma($chat_id, $from['id']);

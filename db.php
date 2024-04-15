@@ -43,17 +43,7 @@ class DB
         $this->setKarma($chat_id, $user_id, $point);
         return $point;
     }
-
-    public function updateUser($user_id, $username, $title, $lang)
-    {
-        $sql = "
-            INSERT INTO Users(id, username, title, lang) 
-            VALUES($user_id, $username, $title, $lang) 
-            ON DUPLICATE KEY UPDATE username=$username, title=$title
-        ";
-        $this->conn->query($sql);
-    }
-
+    updateUser    
     public function setChat($id, $lang = 'en')
     {
         $sql = "
