@@ -43,7 +43,7 @@ class DB
         $this->setKarma($chat_id, $user_id, $point);
         return $point;
     }
-    updateUser    
+      
     public function setChat($id, $lang = 'en')
     {
         $sql = "
