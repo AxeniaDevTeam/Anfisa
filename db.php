@@ -10,11 +10,9 @@ class DB
         $username = MYSQL_USER;
         $password = MYSQL_PASSWORD;
         $dbname = "anfisa";
-        
-        $this->conn = new mysqli($servername, $username, $password, $dbname);
-        
-    }
 
+        $this->conn = new mysqli($servername, $username, $password, $dbname);
+    }
 
     public function getKarma($chat_id, $user_id)
     {
@@ -28,7 +26,6 @@ class DB
             $sql = "INSERT INTO `Karma`(`user_id`, `chat_id`, `level`) VALUES ('%s','%s',0)";
             $sql = sprintf($sql, $user_id, $chat_id);
             $this->conn->query($sql);
-            // $this->conn->prepare($sql)->execute([$user_id, $chat_id]);
             return 0;
         }
     }
@@ -56,4 +53,31 @@ class DB
         ";
         $this->conn->query($sql);
     }
+
+    public function setChat($id, $lang = 'en')
+    {
+        $sql = "
+            INSERT INTO Chats(id, lang) 
+            VALUES($id, '$lang') 
+            ON DUPLICATE KEY UPDATE lang='$lang'
+        ";
+        return $this->conn->query($sql);
+    }
+
+    public function getLang($id)
+    {
+        $sql = "SELECT lang FROM Chats WHERE id=$id";
+        $result = $this->conn->query($sql);
+
+        return ($result !== false) ? $result->fetch_row()[0] : false;
+    }
+
+    public function getTop($chat_id)
+    {
+        $sql = "SELECT user_id, level FROM Karma WHERE chat_id=$chat_id ORDER BY level DESC LIMIT 10";
+        $result = $this->conn->query($sql);
+        return $result->fetch_all();
+    }
 }
+
+
