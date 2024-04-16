@@ -32,7 +32,7 @@ if ($telegram->messageFromGroup()) {
         if (!($to['is_bot'] || $from['is_bot'] || $to['id'] == 777000)) {
             if ($to['id'] != $from['id']) {
                 if (preg_match('/^(\+|\-|👍|👎) ?([\s\S]+)?/ui', $text, $matches)) {
-                    switch ($matches[0]) {
+                    switch ($matches[1]) {
                         case '+':
                         case '👍':
                             $text = $service->handleKarma($chat_id, $to, $from, True);
